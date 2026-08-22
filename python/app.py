@@ -31,5 +31,27 @@ def read_task():
     for task in tasks:
         result.append({"id":task.id,"title":task.title,"completed":task.completed})
     return jsonify(result)
+
+@app.route('/api/tasks/<int:task_id>',methods=['PUT'])
+def update_task(task_id):
+    task= Task.query.get(task_id)
+    if not task:
+        return jsonify({"error":"Task not found"}), 404
+    data = request.get_json()
+    task.completed= data.get('completed',task.completed)
+    db.session.commit()
+    return jsonify({"id": task.id,"title": task.title, "completed": task.completed})
+
+@app.route('/api/tasks/<int:task_id>',methods=['DELETE'])
+def delete_task(task_id):
+    task=Task.query.get(task_id)
+    if not task:
+            return jsonify({"error":"Task not found"}), 404
+    db.session.delete(task)
+    db.session.commit()
+
+    return jsonify({"message": "Task deleted"})
+
+
 if __name__ == '__main__':
     app.run(debug=True)

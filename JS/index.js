@@ -26,5 +26,32 @@ function renderTask(tasks){
         tasklist.appendChild(taskDiv);
     })
 }
+async function updateTask(taskId,completed){
+    const response = await fetch(`http://127.0.0.1:5000/api/tasks/${taskId}`,{
+        method:'PUT',
+        headers:{'Content-Type':'application/json'},
 
+        body:JSON.stringify({completed : completed})
+    });
+    return await response.json();
+
+}
+
+async function deleteTask(taskId){
+    const response = await fetch(`http://127.0.0.1:5000/api/tasks/${taskId}`,{
+        method:'DELETE',
+        headers:{'Content-Type':'application/json'},
+
+        
+    });
+    return await response.json();
+}
+async function test(){
+    const tasks = await (await fetch('http://127.0.0.1:5000/api/tasks')).json();
+    console.log(tasks);
+}
+test();
 getTask();
+
+updateTask(1,true).then(result => console.log(result));;
+deleteTask(9).then(result => console.log(result));
