@@ -1,0 +1,30 @@
+body{
+    margin:0px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color:rgba(245, 245, 220, 0.986);
+    background-image: radial-gradient(rgba(5, 0, 0, 0.2) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+#container{
+    display:flex;
+    flex-direction:column;
+    
+    justify-content:center;
+    border:1px solid black;
+    margin:auto;
+    background-color:white;
+    padding:30px 80px;
+    margin:80px;
+    
+    height:700px;
+}
+createTask{
+    flex-shrink: 0;
+}
+
+#taskList{
+    overflow-y:auto;
+    flex:1;
+}

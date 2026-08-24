@@ -22,8 +22,29 @@ function renderTask(tasks){
     tasks.forEach(task=>{
         const taskDiv = document.createElement("div");
         taskDiv.classList.add("task-row");
+
+        const checkbox = document.createElement("input");
+        checkbox.type="checkbox";
+        checkbox.checked = task.completed;
+        checkbox.addEventListener("change",async()=>{
+            updateTask(task.id,checkbox.checked);
+            getTask();
+        });
+
+        const deletebut = document.createElement("button");
+        deletebut.textContent="X";
+        deletebut.addEventListener("click",async ()=>{
+            deleteTask(task.id);
+            getTask();
+        })
+
+
+
+
         taskDiv.textContent = task.title;
         tasklist.appendChild(taskDiv);
+        tasklist.appendChild(checkbox);
+        tasklist.appendChild(deletebut);
     })
 }
 async function updateTask(taskId,completed){
@@ -50,8 +71,22 @@ async function test(){
     const tasks = await (await fetch('http://127.0.0.1:5000/api/tasks')).json();
     console.log(tasks);
 }
+
+document.getElementById("addTask").addEventListener("click", async ()=>{
+    const input = document.getElementById("taskenter");
+    const title = input.value.trim();
+
+    if (title === "") return;
+
+
+    await createTask(title);
+    input.value = "";
+    getTask();
+
+
+})
+
+
 test();
 getTask();
 
-updateTask(1,true).then(result => console.log(result));;
-deleteTask(9).then(result => console.log(result));
