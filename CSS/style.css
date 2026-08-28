@@ -1,6 +1,7 @@
 body{
     margin:0px;
     display:flex;
+    flex-direction:column;
     justify-content:center;
     align-items:center;
     background-color:rgba(245, 245, 220, 0.986);
@@ -12,19 +13,68 @@ body{
     flex-direction:column;
     
     justify-content:center;
-    border:1px solid black;
+    border:1px solid rgba(0, 0, 0, 0.342);
     margin:auto;
     background-color:white;
-    padding:30px 80px;
-    margin:80px;
-    
+    background-image: radial-gradient(rgba(255, 0, 0, 0.438) 1px, transparent 1px);
+    background-size: 20px 20px;
+    padding:30px 100px;
+    margin-top:20px;
+    border-radius:15px;
     height:700px;
 }
-createTask{
+#createTask{
     flex-shrink: 0;
-}
+    margin-bottom:15px;
+    margin-top:20px;
+} 
 
 #taskList{
     overflow-y:auto;
     flex:1;
 }
+
+.task-row{
+    display:flex;
+    justify-content:space-evenly;
+    margin-top:20px;
+    border-bottom:1px solid black;
+    padding-bottom:5px;
+    
+}
+.delete{
+    background-color:white;
+    border:1px solid black;
+    
+
+}
+#taskenter{
+    font-size:1.1rem;
+    border-radius:5px;
+    border:1px black solid;
+    padding:2px;
+
+}
+
+#addTask{
+    font-size:1.1rem;
+    border-radius:5px;
+    border:1px black solid;
+    padding:3px 5px;
+    background-color:rgba(231, 227, 227, 0.521);
+}
+
+.title{
+    font-size:1.3rem
+}
+#task-ma{
+    
+    
+    margin:0px;
+    margin-top:30px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    
+
+
+}
+

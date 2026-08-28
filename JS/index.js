@@ -16,35 +16,47 @@ async function getTask(){
     renderTask(tasks);
 
 }
-function renderTask(tasks){
+function renderTask(tasks) {
     const tasklist = document.getElementById("taskList");
     tasklist.innerHTML = "";
-    tasks.forEach(task=>{
+    tasks.forEach((task,index)=>{
+
         const taskDiv = document.createElement("div");
         taskDiv.classList.add("task-row");
 
+        const id= document.createElement("span")
+        id.textContent = index + 1;
+        id.classList.add("task-id");
+
         const checkbox = document.createElement("input");
+        checkbox.classList.add("cbox");
         checkbox.type="checkbox";
         checkbox.checked = task.completed;
         checkbox.addEventListener("change",async()=>{
-            updateTask(task.id,checkbox.checked);
+            await updateTask(task.id,checkbox.checked);
             getTask();
         });
 
         const deletebut = document.createElement("button");
+        deletebut.classList.add("delete")
         deletebut.textContent="X";
         deletebut.addEventListener("click",async ()=>{
-            deleteTask(task.id);
+            await deleteTask(task.id);
             getTask();
-        })
+        });
 
 
 
+        const titlespan = document.createElement("span");
+        titlespan.classList.add("title")
+        titlespan.textContent = task.title;
 
-        taskDiv.textContent = task.title;
+        taskDiv.appendChild(id);
+        taskDiv.appendChild(titlespan);
+        taskDiv.appendChild(checkbox);
+        taskDiv.appendChild(deletebut);
+
         tasklist.appendChild(taskDiv);
-        tasklist.appendChild(checkbox);
-        tasklist.appendChild(deletebut);
     })
 }
 async function updateTask(taskId,completed){
