@@ -1,3 +1,4 @@
+const API_URL = "https://task-manager-xvpc.onrender.com";
 let editMode = false;
 document.getElementById("editbut").addEventListener("click",()=>{
     editMode= !editMode;
@@ -8,7 +9,7 @@ document.getElementById("editbut").addEventListener("click",()=>{
 
 
 async function createTask(title){
-    const response= await fetch('http://127.0.0.1:5000/api/tasks',{
+    const response= await fetch(`${API_URL}/api/tasks`,{
         method : 'POST',
         headers: {
             'Content-Type':'application/json'
@@ -19,7 +20,7 @@ async function createTask(title){
     console.log(data);
 }
 async function getTask(){
-    const response = await fetch('http://127.0.0.1:5000/api/tasks');
+    const response = await fetch(`${API_URL}/api/tasks`);
     const tasks = await response.json();
     renderTask(tasks);
 
@@ -92,7 +93,7 @@ function renderTask(tasks) {
     })
 }
 async function updateTask(taskId,completed,title){
-    const response = await fetch(`http://127.0.0.1:5000/api/tasks/${taskId}`,{
+    const response = await fetch(`${API_URL}/api/tasks/${taskId}`,{
         method:'PUT',
         headers:{'Content-Type':'application/json'},
 
@@ -103,7 +104,7 @@ async function updateTask(taskId,completed,title){
 }
 
 async function deleteTask(taskId){
-    const response = await fetch(`http://127.0.0.1:5000/api/tasks/${taskId}`,{
+    const response = await fetch(`${API_URL}/api/tasks/${taskId}`,{
         method:'DELETE',
         headers:{'Content-Type':'application/json'},
 
@@ -112,7 +113,7 @@ async function deleteTask(taskId){
     return await response.json();
 }
 async function test(){
-    const tasks = await (await fetch('http://127.0.0.1:5000/api/tasks')).json();
+    const tasks = await (await fetch(`${API_URL}/api/tasks`)).json();
     console.log(tasks);
 }
 async function handleAdd(){
