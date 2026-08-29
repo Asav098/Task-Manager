@@ -1,3 +1,11 @@
+let editMode = false;
+document.getElementById("editbut").addEventListener("click",()=>{
+    editMode= !editMode;
+    document.getElementById("editbut").textContent = editMode ? "Done" : "Edit";
+    getTask();
+})
+
+
 
 async function createTask(title){
     const response= await fetch('http://127.0.0.1:5000/api/tasks',{
@@ -45,26 +53,50 @@ function renderTask(tasks) {
             getTask();
         });
 
+        let titleElement;
+        if(editMode){
+            titleElement = document.createElement("input");
+            titleElement.type = "text";
+            titleElement.value = task.title;
+
+            titleElement.addEventListener("keydown",async (e)=>{
+                if(e.key === "Enter") {
+                    await updateTask(task.id,task.completed,titleElement.value);
+                    getTask();
+                }
+            })
+
+            titleElement.addEventListener("blur",async ()=>{
+                
+                    await updateTask(task.id,task.completed,titleElement.value);
+                    getTask();
+                
+            });
+        
+        } else {
+            titleElement= document.createElement("span");
+            titleElement.classList.add("title");
+            
+            titleElement.textContent = task.title;
+        }
 
 
-        const titlespan = document.createElement("span");
-        titlespan.classList.add("title")
-        titlespan.textContent = task.title;
+        
 
         taskDiv.appendChild(id);
-        taskDiv.appendChild(titlespan);
+        taskDiv.appendChild(titleElement);
         taskDiv.appendChild(checkbox);
         taskDiv.appendChild(deletebut);
 
         tasklist.appendChild(taskDiv);
     })
 }
-async function updateTask(taskId,completed){
+async function updateTask(taskId,completed,title){
     const response = await fetch(`http://127.0.0.1:5000/api/tasks/${taskId}`,{
         method:'PUT',
         headers:{'Content-Type':'application/json'},
 
-        body:JSON.stringify({completed : completed})
+        body:JSON.stringify({completed : completed,title:title})
     });
     return await response.json();
 
@@ -83,8 +115,7 @@ async function test(){
     const tasks = await (await fetch('http://127.0.0.1:5000/api/tasks')).json();
     console.log(tasks);
 }
-
-document.getElementById("addTask").addEventListener("click", async ()=>{
+async function handleAdd(){
     const input = document.getElementById("taskenter");
     const title = input.value.trim();
 
@@ -94,9 +125,13 @@ document.getElementById("addTask").addEventListener("click", async ()=>{
     await createTask(title);
     input.value = "";
     getTask();
+    }
 
-
-})
+document.getElementById("taskenter").addEventListener("keydown",async(e)=>{
+    if(e.key === "Enter"){
+        handleAdd();}
+});
+document.getElementById("addTask").addEventListener("click", handleAdd);
 
 
 test();

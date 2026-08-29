@@ -38,6 +38,7 @@ def update_task(task_id):
     if not task:
         return jsonify({"error":"Task not found"}), 404
     data = request.get_json()
+    task.title = data.get('title',task.title)
     task.completed= data.get('completed',task.completed)
     db.session.commit()
     return jsonify({"id": task.id,"title": task.title, "completed": task.completed})
