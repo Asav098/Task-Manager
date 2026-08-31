@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
-from datetime import datetime,timedelta
+from datetime import datetime,timedelta, timezone
 import os
 
 
@@ -64,7 +64,7 @@ def login():
 
     token = jwt.encode({
     'user_id': user.id,
-    'exp': datetime.utcnow() + timedelta(hours=24)
+    'exp': datetime.now(timezone.utc) + timedelta(hours=24)
     }, SECRET_KEY, algorithm='HS256')
 
     return jsonify({"token":token, "username":user.username})
