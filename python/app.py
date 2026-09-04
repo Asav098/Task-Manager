@@ -19,6 +19,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(200), nullable = True)
     
 class Task(db.Model):
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200),nullable = False)
     completed = db.Column(db.Boolean,default = False)
@@ -105,6 +106,17 @@ def delete_task(task_id):
 
     return jsonify({"message": "Task deleted"})
 
+def get_token():
+    auth =request.headers.get('Authorization')
+    if not auth :
+        return None
 
+    token = auth.split(' ')[1]
+    try:
+        T = jwt.decode(token,SECRET_KEY,algorithms = ['HS256'])
+        return T
+
+    except:
+        return None;
 if __name__ == '__main__':
     app.run(debug=True)

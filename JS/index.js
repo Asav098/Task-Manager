@@ -9,10 +9,11 @@ document.getElementById("editbut").addEventListener("click",()=>{
 
 
 async function createTask(title){
+    const token = localStorage.getItem("token");
     const response= await fetch(`${API_URL}/api/tasks`,{
         method : 'POST',
         headers: {
-            'Content-Type':'application/json'
+            'Content-Type':'application/json', 'Authorization' : `Bearer ${token}`
         },
         body: JSON.stringify({title : title})
     });
@@ -20,13 +21,22 @@ async function createTask(title){
     console.log(data);
 }
 async function getTask(){
-    const response = await fetch(`${API_URL}/api/tasks`);
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_URL}/api/tasks`,{
+        method : "GET",
+        headers: {
+            'Authorization' : `Bearer ${token}`
+        },
+        
+    }
+    );
     const tasks = await response.json();
     renderTask(tasks);
 
 }
 function renderTask(tasks) {
     const tasklist = document.getElementById("taskList");
+    
     tasklist.innerHTML = "";
     tasks.forEach((task,index)=>{
 
@@ -93,9 +103,10 @@ function renderTask(tasks) {
     })
 }
 async function updateTask(taskId,completed,title){
+    const token = localStorage.getItem("token")
     const response = await fetch(`${API_URL}/api/tasks/${taskId}`,{
         method:'PUT',
-        headers:{'Content-Type':'application/json'},
+        headers:{'Content-Type':'application/json', 'Authorization' : `Bearer ${token}`},
 
         body:JSON.stringify({completed : completed,title:title})
     });
@@ -104,9 +115,12 @@ async function updateTask(taskId,completed,title){
 }
 
 async function deleteTask(taskId){
+    const token = localStorage.getItem("token")
     const response = await fetch(`${API_URL}/api/tasks/${taskId}`,{
         method:'DELETE',
-        headers:{'Content-Type':'application/json'},
+        headers:{'Content-Type':'application/json'
+            , 'Authorization' : `Bearer ${token}`
+        },
 
         
     });
