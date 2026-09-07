@@ -5,7 +5,9 @@ document.getElementById("editbut").addEventListener("click",()=>{
     document.getElementById("editbut").textContent = editMode ? "Done" : "Edit";
     getTask();
 })
-
+document.getElementById("loginBtn").addEventListener("click",()=>{
+    
+})
 
 
 async function createTask(title){
