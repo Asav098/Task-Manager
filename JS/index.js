@@ -18,7 +18,8 @@ async function createTask(title){
         body: JSON.stringify({title : title})
     });
     const data = await response.json();
-    console.log(data);
+
+
 }
 async function getTask(){
     const token = localStorage.getItem('token');

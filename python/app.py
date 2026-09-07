@@ -72,14 +72,22 @@ def login():
 @app.route('/api/tasks',methods=['POST'])
 def create_task():
     data = request.get_json()
-    new_task = Task(title=data['title'])
+    user_data = get_token()
+    if user_data is None:
+        return jsonify({"error": "Unauthorized"}), 401
+    user_id = user_data['user_id']
+    new_task = Task(title=data['title'], user_id = user_id)
     db.session.add(new_task)
     db.session.commit()
     return jsonify({"id": new_task.id,"title":new_task.title,"completed":new_task.completed})
 
 @app.route('/api/tasks',methods=['GET'])
 def read_task():
-    tasks=Task.query.all()
+    user_data = get_token()
+    if user_data is None:
+        return jsonify({"error": "Unauthorized"}), 401
+    user_id=user_data['user_id']
+    tasks=Task.query.filter_by(user_id = user_id).all()
     result=[]
     for task in tasks:
         result.append({"id":task.id,"title":task.title,"completed":task.completed})
@@ -87,9 +95,16 @@ def read_task():
 
 @app.route('/api/tasks/<int:task_id>',methods=['PUT'])
 def update_task(task_id):
+    user_data = get_token()
+    if user_data is None:
+        return jsonify({"error": "Unauthorized"}), 401
     task= Task.query.get(task_id)
     if not task:
         return jsonify({"error":"Task not found"}), 404
+    if(user_data['user_id'] != task.user_id):
+        return jsonify({"error":"Forbidden"}),403
+
+    
     data = request.get_json()
     task.title = data.get('title',task.title)
     task.completed= data.get('completed',task.completed)
@@ -98,9 +113,14 @@ def update_task(task_id):
 
 @app.route('/api/tasks/<int:task_id>',methods=['DELETE'])
 def delete_task(task_id):
+    user_data =get_token()
+    if user_data is None:
+        return jsonify({"error": "Unauthorized"}), 401
     task=Task.query.get(task_id)
     if not task:
             return jsonify({"error":"Task not found"}), 404
+    if(user_data['user_id'] != task.user_id):
+            return jsonify({"error":"Forbidden"}),403
     db.session.delete(task)
     db.session.commit()
 
