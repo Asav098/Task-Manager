@@ -127,10 +127,7 @@ async function deleteTask(taskId){
     });
     return await response.json();
 }
-async function test(){
-    const tasks = await (await fetch(`${API_URL}/api/tasks`)).json();
-    console.log(tasks);
-}
+
 async function handleAdd(){
     const input = document.getElementById("taskenter");
     const title = input.value.trim();
