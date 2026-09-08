@@ -7,30 +7,33 @@
     <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
+    <button id="LogOutBtn">Logout</button>
     <div id="authSection">
         <div id="loginForm">
             <h3>Login</h3>
             <input type="text" id="loginUsername" placeholder="Enter your username">
             <input type="password" id="loginPassword" placeholder="Enter your password">
-            <button id="loginBtn"></button>
+            <button id="loginBtn">Login</button>
 
         </div>
         <div id="SignupForm">
             <h3>Signup</h3>
             <input type="text" id="signupUsername" placeholder="Enter your username">
             <input type="password" id="signupPassword" placeholder="Enter your password">
-            <button id="signupBtn"></button>
+            <button id="signupBtn">SignUp</button>
 
         </div>
     </div>
-    <h1 id="task-ma">Task Manager</h1>
-    <div id="container">
-    <div id="createTask">
-        <input type="text" placeholder="Enter Your Task.." id="taskenter">
-        <button class="buttons" id="addTask">Add</button>
-        <button class="buttons" id="editbut">Edit</button>
-    </div>
-    <div id="taskList"></div>
+    <div id="taskManagerSection" style="display:none;">
+        <h1 id="task-ma">Task Manager</h1>
+        <div id="container">
+        <div id="createTask">
+            <input type="text" placeholder="Enter Your Task.." id="taskenter">
+            <button class="buttons" id="addTask">Add</button>
+            <button class="buttons" id="editbut">Edit</button>
+        </div>
+        <div id="taskList"></div>
+        </div>
     </div>
     <script src="JS/index.js"></script>
 </body>

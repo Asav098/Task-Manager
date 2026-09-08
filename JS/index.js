@@ -5,6 +5,12 @@ document.getElementById("editbut").addEventListener("click",()=>{
     document.getElementById("editbut").textContent = editMode ? "Done" : "Edit";
     getTask();
 })
+document.getElementById("LogOutBtn").addEventListener("click",()=>{
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        checkLoginStatus();
+    
+})
 
 document.getElementById("loginBtn").addEventListener("click",async ()=>{
     const username = document.getElementById("loginUsername").value;
@@ -15,7 +21,7 @@ document.getElementById("loginBtn").addEventListener("click",async ()=>{
         return;
     }
 
-    getTask();
+    checkLoginStatus();
 })
 
 document.getElementById("signupBtn").addEventListener("click",async ()=>{
@@ -189,13 +195,25 @@ async function signup(username, password){
     console.log(data);
     return data;
 }
+function checkLoginStatus(){
+    const token= localStorage.getItem('token');
+
+    if (token){
+        document.getElementById('taskManagerSection').style.display = "flex";
+        document.getElementById('authSection').style.display = "none";
+        getTask();
+
+    } else{
+        document.getElementById('taskManagerSection').style.display = "none";
+        document.getElementById('authSection').style.display = "flex";
+    }
+}
 document.getElementById("taskenter").addEventListener("keydown",async(e)=>{
     if(e.key === "Enter"){
         handleAdd();}
 });
 document.getElementById("addTask").addEventListener("click", handleAdd);
 
-
-test();
+checkLoginStatus();
 getTask();
 
