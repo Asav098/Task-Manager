@@ -6,6 +6,29 @@ document.getElementById("editbut").addEventListener("click",()=>{
     getTask();
 })
 
+document.getElementById("loginBtn").addEventListener("click",async ()=>{
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+    const data =await login(username,password);
+     if(data.error){
+        console.log(data.error)
+        return;
+    }
+
+    getTask();
+})
+
+document.getElementById("signupBtn").addEventListener("click",async ()=>{
+    const username = document.getElementById("signupUsername").value;
+    const password = document.getElementById("signupPassword").value;
+    const data =await signup(username,password);
+     if(data.error){
+        console.log(data.error)
+        return;
+    }
+
+    console.log("login now")
+})
 
 
 async function createTask(title){
@@ -18,6 +41,7 @@ async function createTask(title){
         body: JSON.stringify({title : title})
     });
     const data = await response.json();
+
 
 
 }
@@ -139,7 +163,32 @@ async function handleAdd(){
     input.value = "";
     getTask();
     }
+async function login(username,password){
+    const response = await fetch(`${API_URL}/api/login`,{
+        method: 'POST',
+        headers:{'Content-Type': 'application/json'},
+        body: JSON.stringify({username:username,password:password})
 
+    });
+    const data = await response.json();
+
+    if(data.token){
+        localStorage.setItem('token',data.token)
+        localStorage.setItem('username',data.username)
+    }
+
+    return data;
+}
+async function signup(username, password){
+    const response = await fetch(`${API_URL}/api/signup`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username: username, password: password})
+    });
+    const data = await response.json();
+    console.log(data);
+    return data;
+}
 document.getElementById("taskenter").addEventListener("keydown",async(e)=>{
     if(e.key === "Enter"){
         handleAdd();}
