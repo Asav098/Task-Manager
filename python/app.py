@@ -27,7 +27,7 @@ class Task(db.Model):
 with app.app_context():
     db.create_all()
 
-@app.route('/api/sigup',methods = ['POST'])
+@app.route('/api/signup',methods = ['POST'])
 def signup():
     data = request.get_json();
     username = data.get('username');
