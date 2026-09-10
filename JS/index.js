@@ -200,11 +200,13 @@ function checkLoginStatus(){
 
     if (token){
         document.getElementById('taskManagerSection').style.display = "flex";
+        document.getElementById('LogOutBtn').style.display = "flex";
         document.getElementById('authSection').style.display = "none";
         getTask();
 
     } else{
         document.getElementById('taskManagerSection').style.display = "none";
+        document.getElementById('LogOutBtn').style.display = "none";
         document.getElementById('authSection').style.display = "flex";
     }
 }
