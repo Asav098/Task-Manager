@@ -157,6 +157,8 @@ label{
 }
 
 #loginForm, #SignupForm {
+    display:flex;
+    flex-direction:column;
     flex: 1;
     transition: flex 1s ease;
     overflow: hidden;
@@ -176,4 +178,21 @@ label{
 }
 #authSection:has(#SignupForm:hover) #loginForm {
     flex: 0.7;
+}
+
+#Incorrect , #signupMessage {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.5rem;
+    background-color:white;
+    
+    
+    padding:5px 5px;
+    opacity:0;
+    transition: opacity 1s ease-in-out;
+}
+
+#signupMessage.show, #Incorrect.show {
+    opacity: 1;
 }

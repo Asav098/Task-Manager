@@ -17,7 +17,7 @@ document.getElementById("loginBtn").addEventListener("click",async ()=>{
     const password = document.getElementById("loginPassword").value;
     const data =await login(username,password);
      if(data.error){
-        console.log(data.error)
+        showTempMessage("loginForm", "Incorrect", "Incorrect ID/Password");
         return;
     }
 
@@ -29,11 +29,11 @@ document.getElementById("signupBtn").addEventListener("click",async ()=>{
     const password = document.getElementById("signupPassword").value;
     const data =await signup(username,password);
      if(data.error){
-        console.log(data.error)
+        showTempMessage("SignupForm", "signupMessage", "Username Already Taken");
         return;
     }
 
-    console.log("login now")
+    showTempMessage("SignupForm", "signupMessage", "Account Created: Please Log In");
 })
 
 
@@ -210,6 +210,26 @@ function checkLoginStatus(){
         document.getElementById('authSection').style.display = "flex";
     }
 }
+
+function showTempMessage(formId, messageId, text){
+    document.getElementById(formId).style.display = "none";
+    const message = document.getElementById(messageId);
+    message.textContent = text;
+    message.style.display = "flex";
+    
+    requestAnimationFrame(() => {
+        message.classList.add("show");
+    });
+
+    setTimeout(()=>{
+        message.classList.remove("show");
+        
+        setTimeout(() => {
+            message.style.display = "none";
+            document.getElementById(formId).style.display = "flex";
+        }, 500);
+    }, 3000);
+}
 document.getElementById("taskenter").addEventListener("keydown",async(e)=>{
     if(e.key === "Enter"){
         handleAdd();}
@@ -217,5 +237,5 @@ document.getElementById("taskenter").addEventListener("keydown",async(e)=>{
 document.getElementById("addTask").addEventListener("click", handleAdd);
 
 checkLoginStatus();
-getTask();
+
 
